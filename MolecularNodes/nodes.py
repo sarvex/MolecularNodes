@@ -1,6 +1,7 @@
 import bpy
 from .tools import property_exists
 from .globals import mn_folder
+import numpy as np
 import os
 
 socket_types = {
@@ -272,7 +273,7 @@ def create_custom_surface(name, n_chains):
     
     return group
 
-def rotation_matrix(node_group, mat, location = [0,0], world_scale = 0.01):
+def rotation_matrix_mat(node_group, mat, location = [0,0], world_scale = 0.01) :
     """Add a Rotation & Translation node from a 3x4 matrix.
 
     Args:
@@ -301,6 +302,40 @@ def rotation_matrix(node_group, mat, location = [0,0], world_scale = 0.01):
     # set the translation values
     for i in range(3):
         node.inputs[1].default_value[i] = mat[:3, 3:][i] * world_scale
+        
+    return node
+
+def rotation_matrix_sym(node_group, sym, location = [0,0], world_scale = 0.01) :
+    """Add a Rotation & Translation node from a 3x4 matrix.
+
+    Args:
+        node_group (_type_): Parent node group to add this new node to.
+        mat (_type_): 3x4 rotation & translation matrix
+        location (list, optional): Position to add the node in the node tree. Defaults to [0,0].
+        world_scale(float, optional): Scaling factor for the world. Defaults to 0.01.
+    Returns:
+        _type_: Newly created node tree.
+    """
+    from scipy.spatial.transform import Rotation as R
+    
+    node_utils_rot = mol_append_node('MOL_utils_rot_trans')
+    
+    node = node_group.nodes.new('GeometryNodeGroup')
+    node.node_tree = node_utils_rot
+    node.location = location
+    
+    rot_mat = np.array(sym[1]).reshape(3,3)
+    
+    # calculate the euler rotation from the rotation matrix
+    rotation = R.from_matrix(rot_mat).as_euler('xyz')
+    
+    # set the values for the node that was just created
+    # set the euler rotation values
+    for i in range(3):
+        node.inputs[0].default_value[i] = rotation[i]
+    # set the translation values
+    for i in range(3):
+        node.inputs[1].default_value[i] = sym[2][i] * world_scale
         
     return node
 
@@ -588,3 +623,4 @@ def resid_multiple_selection(node_name, input_resid_string):
     group_link(previous_bool_node.outputs[0], invert_bool_math.inputs[0])
     group_link(invert_bool_math.outputs[0], residue_id_group_out.inputs['Inverted'])
     return residue_id_group
+

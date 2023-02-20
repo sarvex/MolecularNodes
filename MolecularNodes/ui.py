@@ -5,7 +5,7 @@ from . import nodes
 from . import pkg
 from . import load
 from . import md
-from . import assembly
+from . import assembly_node
 import os,pathlib
 
 
@@ -454,9 +454,9 @@ class MOL_OT_Assembly_Bio(bpy.types.Operator):
     def execute(self, context):
         obj = context.active_object
         try:
-            node_bio_assembly = assembly.create_biological_assembly_node(
+            node_bio_assembly = assembly_node.create_biological_assembly_node(
                 name = obj.name, 
-                transform_dict = assembly.get_transformations_mmtf(obj['bio_transform_dict'])
+                assembly = obj['bio_transform_dict']
             )
         except:
             node_bio_assembly = None

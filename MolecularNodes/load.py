@@ -5,6 +5,7 @@ import warnings
 from . import data
 from . import assembly
 from . import nodes
+from .assembly import mmtf
 
 def molecule_rcsb(pdb_code, 
                   center_molecule=False, 
@@ -30,7 +31,11 @@ def molecule_rcsb(pdb_code,
             starting_style = starting_style
             )
     
-    mol_object['bio_transform_dict'] = file['bioAssemblyList']
+    # TODO support more than a single assembly
+    # TODO support chain selections for the assemblies
+    assemblies = mmtf.MMTFAssemblyParser(file).get_transformations("1")
+    assemblies = [(sym[0].copy(order='c'), sym[1].copy(order='c'), sym[2].copy(order='c')) for sym in assemblies]
+    mol_object['bio_transform_dict'] = assemblies
     
     return mol_object
 
@@ -43,6 +48,7 @@ def molecule_local(file_path,
                    setup_nodes=True
                    ): 
     import biotite.structure as struc
+    from .assembly import cif
     
     
     import os
@@ -55,7 +61,9 @@ def molecule_local(file_path,
     elif file_ext == '.pdbx' or file_ext == '.cif':
         mol, file = open_structure_local_pdbx(file_path, include_bonds)
         try:
-            transforms = assembly.get_transformations_pdbx(file)
+            transforms = cif.CIFAssemblyParser(file).get_transformations('1')
+            transforms = [(sym[0].copy(order='c'), sym[1].copy(order='c'), sym[2].copy(order='c')) for sym in transforms]
+            print("got the transforms!")
         except:
             transforms = None
             # self.report({"WARNING"}, message='Unable to parse biological assembly information.')
@@ -89,8 +97,8 @@ def molecule_local(file_path,
             starting_style = default_style
             )
     
-    # if transforms:
-        # mol_object['bio_transform_dict'] = (transforms)
+    if transforms:
+        mol_object['bio_transform_dict'] = transforms
         # mol_object['bio_transnform_dict'] = 'testing'
         
     return mol_object
