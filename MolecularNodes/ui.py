@@ -1,12 +1,10 @@
 import bpy
-from .pref import *
 from .tools import property_exists
 from . import nodes
 from . import pkg
 from . import load
 from . import md
-from . import assembly_node
-import os,pathlib
+from . import assembly
 
 
 
@@ -454,7 +452,7 @@ class MOL_OT_Assembly_Bio(bpy.types.Operator):
     def execute(self, context):
         obj = context.active_object
         try:
-            node_bio_assembly = assembly_node.create_biological_assembly_node(
+            node_bio_assembly = assembly.node.create_biological_assembly_node(
                 name = obj.name, 
                 assembly = obj['bio_transform_dict']
             )
