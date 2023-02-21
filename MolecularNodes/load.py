@@ -3,9 +3,11 @@ import numpy as np
 from .tools import coll_mn
 import warnings
 from . import data
-from . import assembly
 from . import nodes
-from .assembly import mmtf
+
+
+def fix_sym_encoding(assembly):
+    return [(sym[0].copy(order='c'), sym[1].copy(order='c'), sym[2].copy(order='c')) for sym in assembly]
 
 def molecule_rcsb(pdb_code, 
                   center_molecule=False, 
@@ -14,6 +16,7 @@ def molecule_rcsb(pdb_code,
                   starting_style=0, 
                   setup_nodes=True
                   ):
+    from .assembly import mmtf
     
     mol, file = open_structure_rcsb(pdb_code = pdb_code, include_bonds=include_bonds)
     mol_object, coll_frames = create_molecule(
@@ -34,7 +37,7 @@ def molecule_rcsb(pdb_code,
     # TODO support more than a single assembly
     # TODO support chain selections for the assemblies
     assemblies = mmtf.MMTFAssemblyParser(file).get_transformations("1")
-    assemblies = [(sym[0].copy(order='c'), sym[1].copy(order='c'), sym[2].copy(order='c')) for sym in assemblies]
+    assemblies = fix_sym_encoding(assemblies)
     mol_object['bio_transform_dict'] = assemblies
     
     return mol_object
@@ -49,20 +52,23 @@ def molecule_local(file_path,
                    ): 
     import biotite.structure as struc
     from .assembly import cif
-    
-    
+    from .assembly import pdb
     import os
+    
+    
     file_path = os.path.abspath(file_path)
     file_ext = os.path.splitext(file_path)[1]
     
     if file_ext == '.pdb':
         mol, file = open_structure_local_pdb(file_path, include_bonds)
-        transforms = assembly.get_transformations_pdb(file)
+        transforms = pdb.PDBAssemblyParser(file).get_transformations("1")
+        transforms = fix_sym_encoding(transforms)
+        
     elif file_ext == '.pdbx' or file_ext == '.cif':
         mol, file = open_structure_local_pdbx(file_path, include_bonds)
         try:
             transforms = cif.CIFAssemblyParser(file).get_transformations('1')
-            transforms = [(sym[0].copy(order='c'), sym[1].copy(order='c'), sym[2].copy(order='c')) for sym in transforms]
+            transforms = fix_sym_encoding(transforms)
             print("got the transforms!")
         except:
             transforms = None
