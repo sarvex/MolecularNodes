@@ -630,3 +630,63 @@ def resid_multiple_selection(node_name, input_resid_string):
     group_link(invert_bool_math.outputs[0], residue_id_group_out.inputs['Inverted'])
     return residue_id_group
 
+def split_geometry_to_instances(name, iter_list=('A', 'B', 'C'), attribute='chain_id'):
+    """Create a Node to Split Geometry by an Attribute into Instances
+    
+    Splits the inputted geometry into instances, based on an attribute field. By
+    default this field is the `chain_id` but this can be selected for any field.
+    Will loop over each item of the list, so a list of arbitrary items that will 
+    define how many times to create the required nodes.
+    
+    """
+    node_group = bpy.data.node_groups.get(name)
+    if node_group:
+        return node_group
+    
+    node_group = gn_new_group_empty(name)
+    # TODO add the translations here
+    node_input = node_group.nodes['Group Input']
+    node_output = node_group.nodes['Group Output']
+    
+    add_node = node_group.nodes.new
+    named_att = add_node('GeometryNodeInputNamedAttribute')
+    named_att.location = [-200, -200]
+    named_att.data_type = 'INT'
+    named_att.inputs[0].default_value = attribute
+    
+    link = node_group.links.new
+    list_sep = []
+    
+    for i, chain in enumerate(iter_list):
+        node_separate = add_node('GeometryNodeSeparateGeometry')
+        node_separate.location = [int(200 * i), 0]
+
+        node_compare = add_node('FunctionNodeCompare')
+        node_compare.location = [int(200 * i), -200]
+        node_compare.data_type = 'INT'
+        node_compare.operation = 'EQUAL'
+        node_compare.inputs[3].default_value = i
+
+        link(named_att.outputs[4], node_compare.inputs[2])
+        link(node_compare.outputs[0], node_separate.inputs['Selection'])
+        
+        list_sep.append(node_separate)
+        
+        if i > 0:
+            link(list_sep[i - 1].outputs['Inverted'], node_separate.inputs['Geometry'])
+        else:
+            link(node_input.outputs['Geometry'], node_separate.inputs['Geometry'])
+    
+    node_instance = add_node('GeometryNodeGeometryToInstance')
+
+    for i, node in enumerate(reversed(list_sep)):
+        link(node.outputs['Selection'], node_instance.inputs['Geometry'])
+    
+    node_instance.location = [int(i * 200 + 200), 0]
+    node_output.location = [int(i * 200 + 400), 0]
+    link(node_instance.outputs[0], node_output.inputs[0])
+    
+    return node_group
+    
+    
+    
