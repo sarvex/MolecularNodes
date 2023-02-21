@@ -1,4 +1,5 @@
 import bpy
+import numpy as np
 from .. import nodes
 
 def create_assembly_node(name, assembly):

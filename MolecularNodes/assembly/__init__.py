@@ -6,6 +6,7 @@ The central functions are `get_transformations_`
 """
 
 from abc import ABCMeta, abstractmethod
+from . import node
 
 
 class AssemblyParser(metaclass=ABCMeta):

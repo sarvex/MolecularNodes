@@ -441,7 +441,10 @@ class MOL_OT_Style_Surface_Custom(bpy.types.Operator):
 class MOL_OT_Assembly_Bio(bpy.types.Operator):
     bl_idname = "mol.assembly_bio"
     bl_label = "Build"
-    bl_description = "**PDB Downloaded Structures Only**\nAdds node to build biological assembly based on symmetry operations that are extraced from the structure file. Currently this is only supported for structures that were downloaded from the PDB"
+    bl_description = "**PDB Downloaded Structures Only**\nAdds node to build"\
+        "biological assembly based on symmetry operations that are extraced from the "\
+        "structure file. Currently this is only supported for structures that were "\
+        "downloaded from the PDB"
     bl_options = {"REGISTER", "UNDO"}
     
     @classmethod

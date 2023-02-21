@@ -1,5 +1,6 @@
 import bpy
 import os
+import numpy as np
 
 # check if a particular property already exists or not
 def property_exists(prop_path, glob, loc):
