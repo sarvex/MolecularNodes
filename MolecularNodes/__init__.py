@@ -27,12 +27,10 @@ bl_info = {
 
 import bpy
 from . import pkg
-from .pref import *
 pkg.verify()
-from .load import *
 from .ui import *
 from .md import *
-from .pkg import get_pypi_mirror_alias
+from .pkg import *
 
 
 def register():
@@ -146,7 +144,7 @@ def register():
     )
 
     bpy.utils.register_class(TrajectorySelectionList)
-    bpy.utils.register_class(TrajectorySelectionListUI)
+    bpy.utils.register_class(MOL_UL_TrajectorySelectionListUI)
     bpy.utils.register_class(TrajectorySelection_OT_NewItem)
     bpy.utils.register_class(TrajectorySelection_OT_DeleteIem)
     
@@ -161,7 +159,6 @@ def register():
     bpy.types.NODE_MT_add.append(mol_add_node_menu)
 
     bpy.utils.register_class(MOL_PT_panel)
-    bpy.utils.register_class(MOL_PT_AddonPreferences)
     bpy.utils.register_class(MOL_MT_Add_Node_Menu)
     bpy.utils.register_class(MOL_MT_Add_Node_Menu_Properties)
     bpy.utils.register_class(MOL_MT_Add_Node_Menu_Styling)
@@ -187,8 +184,8 @@ def register():
     bpy.utils.register_class(MOL_OT_Color_Chain)
     bpy.utils.register_class(MOL_OT_Chain_Selection_Custom)
     bpy.utils.register_class(MOL_OT_Ligand_Selection_Custom)
-    
     bpy.utils.register_class(MOL_OT_install_dependencies)
+
     bpy.utils.register_class(MOL_OT_Add_Custom_Node_Group)
 
     bpy.utils.register_class(MOL_OT_Residues_Selection_Custom)
@@ -217,12 +214,11 @@ def unregister():
     bpy.types.NODE_MT_add.remove(mol_add_node_menu)
     
     bpy.utils.unregister_class(TrajectorySelectionList)
-    bpy.utils.unregister_class(TrajectorySelectionListUI)
+    bpy.utils.unregister_class(MOL_UL_TrajectorySelectionListUI)
     bpy.utils.unregister_class(TrajectorySelection_OT_NewItem)
     bpy.utils.unregister_class(TrajectorySelection_OT_DeleteIem)
 
     bpy.utils.unregister_class(MOL_PT_panel)
-    bpy.utils.unregister_class(MOL_PT_AddonPreferences)
     bpy.utils.unregister_class(MOL_MT_Add_Node_Menu)
     bpy.utils.unregister_class(MOL_MT_Add_Node_Menu_Properties)
     bpy.utils.unregister_class(MOL_MT_Add_Node_Menu_Styling)
@@ -247,8 +243,8 @@ def unregister():
     bpy.utils.unregister_class(MOL_OT_Color_Chain)
     bpy.utils.unregister_class(MOL_OT_Chain_Selection_Custom)
     
-    bpy.utils.unregister_class(MOL_OT_install_dependencies)
     bpy.utils.unregister_class(MOL_OT_Add_Custom_Node_Group)
+    bpy.utils.unregister_class(MOL_OT_install_dependencies)
 
     bpy.utils.unregister_class(MOL_OT_Residues_Selection_Custom)
 
