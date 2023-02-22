@@ -34,10 +34,15 @@ def molecule_rcsb(pdb_code,
             starting_style = starting_style
             )
     
-    # TODO support more than a single assembly
-    # TODO support chain selections for the assemblies
-    assemblies = mmtf.MMTFAssemblyParser(file).get_transformations("1")
-    assemblies = fix_sym_encoding(assemblies)
+    file_assemblies = mmtf.MMTFAssemblyParser(file)
+    assemblies = []
+    for i in file_assemblies.list_assemblies():
+        assemblies.append(
+            fix_sym_encoding(file_assemblies.get_transformations(i))
+        )
+        
+    # assemblies = mmtf.MMTFAssemblyParser(file).get_transformations("1")
+    # assemblies = fix_sym_encoding(assemblies)
     mol_object['bio_transform_dict'] = assemblies
     
     return mol_object
@@ -61,20 +66,26 @@ def molecule_local(file_path,
     
     if file_ext == '.pdb':
         mol, file = open_structure_local_pdb(file_path, include_bonds)
-        transforms = pdb.PDBAssemblyParser(file).get_transformations("1")
-        transforms = fix_sym_encoding(transforms)
+        
+        file_assemblies = pdb.PDBAssemblyParser(file)
+        assemblies = []
+        for i in file_assemblies.list_assemblies():
+            assemblies.append(
+                fix_sym_encoding(file_assemblies.get_transformations(i))
+            )
         
     elif file_ext == '.pdbx' or file_ext == '.cif':
         mol, file = open_structure_local_pdbx(file_path, include_bonds)
-        try:
-            transforms = cif.CIFAssemblyParser(file).get_transformations('1')
-            transforms = fix_sym_encoding(transforms)
-            print("got the transforms!")
-        except:
-            transforms = None
-            # self.report({"WARNING"}, message='Unable to parse biological assembly information.')
+        
+        file_assemblies = cif.CIFAssemblyParser(file)
+        assemblies = []
+        for i in file_assemblies.list_assemblies():
+            assemblies.append(
+                fix_sym_encoding(file_assemblies.get_transformations(i))
+            )
     else:
         warnings.warn("Unable to open local file. Format not supported.")
+    
     # if include_bonds chosen but no bonds currently exist (mol.bonds is None)
     # then attempt to find bonds by distance
     if include_bonds and not mol.bonds:
@@ -103,9 +114,8 @@ def molecule_local(file_path,
             starting_style = default_style
             )
     
-    if transforms:
-        mol_object['bio_transform_dict'] = transforms
-        # mol_object['bio_transnform_dict'] = 'testing'
+    if assemblies:
+        mol_object['bio_transform_dict'] = assemblies
         
     return mol_object
 

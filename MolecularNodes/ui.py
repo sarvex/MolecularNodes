@@ -477,17 +477,18 @@ class MOL_OT_Assembly_Bio(bpy.types.Operator):
 
     def execute(self, context):
         obj = context.active_object
-        try:
-            node_bio_assembly = assembly.node.create_biological_assembly_node(
-                name = obj.name, 
-                assembly = obj['bio_transform_dict']
-            )
-        except:
-            node_bio_assembly = None
-            self.report(
-                {'WARNING'}, 
-                message = 'Unable to detect biological assembly information.'
-                )
+        # try:
+        node_bio_assembly = assembly.node.create_biological_assembly_node(
+            name = obj.name, 
+            assemblies_list = obj['bio_transform_dict'], 
+            unique_chain_ids = obj['chain_id_unique']
+        )
+        # except:
+            # node_bio_assembly = None
+            # self.report(
+            #     {'WARNING'}, 
+            #     message = 'Unable to detect biological assembly information.'
+            #     )
         
         if node_bio_assembly:
             mol_add_node(node_bio_assembly.name)
@@ -825,6 +826,7 @@ class MOL_MT_Add_Node_Menu_Assembly(bpy.types.Menu):
                         emboss = True, 
                         depress=True
                         )
+        
         menu_item_interface(layout, 'Center Assembly', 'MOL_assembly_center', 
                             "Center the structure on the world origin based on \
                             bounding box")
