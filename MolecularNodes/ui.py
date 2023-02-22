@@ -580,6 +580,30 @@ class MOL_OT_Chain_Selection_Custom(bpy.types.Operator):
         return {"FINISHED"}
 
 
+class MOL_OT_Split_Geometry_To_Instances(bpy.types.Operator):
+    bl_idname = "mol.split_geometry_to_instances"
+    bl_label = "Split Geometry to Instances"
+    bl_description = "Creates a molecule-specific node group to split the molecule\
+        into instances based on a field, which defaults to `chain_id`."
+    bl_options = {"REGISTER"}
+
+    @classmethod
+    def poll(cls, context):
+        return True
+
+    def execute(self, context):
+        obj = bpy.context.view_layer.objects.active
+        node_split = nodes.split_geometry_to_instances(
+            name = f"MOL_utils_{obj.name}_split_by_chain", 
+            iter_list = obj['chain_id_unique'], 
+            attribute = 'chain_id'
+        )
+        
+        mol_add_node(node_split.name)
+        
+        return {"FINISHED"}
+
+
 class MOL_OT_Residues_Selection_Custom(bpy.types.Operator):
     bl_idname = "mol.residues_selection_custom"
     bl_label = "Multiple Residue Selection"
@@ -823,6 +847,11 @@ class MOL_MT_Add_Node_Menu_Assembly(bpy.types.Menu):
     def draw(self, context):
         layout = self.layout
         layout.operator_context = "INVOKE_DEFAULT"
+        op = layout.operator("mol.split_geometry_to_instances", 
+                        text = "Split Chains to Instances", 
+                        emboss = True, 
+                        depress=True
+                        )
         op = layout.operator("mol.assembly_bio", 
                         text = "Assembly", 
                         emboss = True, 
