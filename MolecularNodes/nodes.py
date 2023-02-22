@@ -1,5 +1,6 @@
 import bpy
 import os
+import math
 import numpy as np
 
 # check if a particular property already exists or not
@@ -23,6 +24,11 @@ socket_types = {
         'COLOR'    : 'NodeSocketColor', 
         'IMAGE'    : 'NodeSocketImage'
     }
+
+def translate(text):
+    """Translate Text for Different Blender Languages
+    """
+    return bpy.app.translations.pgettext_data(text,)
 
 def mol_append_node(node_name):
     if bpy.data.node_groups.get(node_name):
@@ -119,9 +125,9 @@ def create_starting_node_tree(obj, coll_frames, starting_style = "atoms"):
     #     mol_append_node(node_group)
     
     # move the input and output nodes for the group
-    node_input = node_mod.node_group.nodes[bpy.app.translations.pgettext_data("Group Input",)]
+    node_input = node_mod.node_group.nodes[translate("Group Input")]
     node_input.location = [0, 0]
-    node_output = node_mod.node_group.nodes[bpy.app.translations.pgettext_data("Group Output",)]
+    node_output = node_mod.node_group.nodes[translate("Group Output")]
     node_output.location = [800, 0]
     
     # node_properties = add_custom_node_group(node_group, 'MOL_prop_setup', [0, 0])
@@ -211,9 +217,9 @@ def create_custom_surface(name, n_chains):
     
     link = group.links.new
     
-    node_input = group.nodes[bpy.app.translations.pgettext_data("Group Input",)]
+    node_input = group.nodes[translate("Group Input")]
     # node_input.inputs['Geometry'].name = 'Atoms'
-    node_output = group.nodes[bpy.app.translations.pgettext_data("Group Output",)]
+    node_output = group.nodes[translate("Group Output")]
     
     node_chain_id = group.nodes.new("GeometryNodeInputNamedAttribute")
     node_chain_id.location = [-250, -450]
@@ -311,39 +317,7 @@ def rotation_matrix_mat(node_group, mat, location = [0,0], world_scale = 0.01) :
         
     return node
 
-def rotation_matrix_sym(node_group, sym, location = [0,0], world_scale = 0.01) :
-    """Add a Rotation & Translation node from a 3x4 matrix.
 
-    Args:
-        node_group (_type_): Parent node group to add this new node to.
-        mat (_type_): 3x4 rotation & translation matrix
-        location (list, optional): Position to add the node in the node tree. Defaults to [0,0].
-        world_scale(float, optional): Scaling factor for the world. Defaults to 0.01.
-    Returns:
-        _type_: Newly created node tree.
-    """
-    from scipy.spatial.transform import Rotation as R
-    
-    node_utils_rot = mol_append_node('MOL_utils_rot_trans')
-    
-    node = node_group.nodes.new('GeometryNodeGroup')
-    node.node_tree = node_utils_rot
-    node.location = location
-    
-    rot_mat = np.array(sym[1]).reshape(3,3)
-    
-    # calculate the euler rotation from the rotation matrix
-    rotation = R.from_matrix(rot_mat).as_euler('xyz')
-    
-    # set the values for the node that was just created
-    # set the euler rotation values
-    for i in range(3):
-        node.inputs[0].default_value[i] = rotation[i]
-    # set the translation values
-    for i in range(3):
-        node.inputs[1].default_value[i] = sym[2][i] * world_scale
-        
-    return node
 
 def chain_selection(node_name, input_list, attribute, starting_value = 0, label_prefix = ""):
     """
@@ -630,6 +604,34 @@ def resid_multiple_selection(node_name, input_resid_string):
     group_link(invert_bool_math.outputs[0], residue_id_group_out.inputs['Inverted'])
     return residue_id_group
 
+def nodes_to_instances(this_group, node_list, output = 'Geometry'):
+    link = this_group.links.new
+    max_x = max([node.location[0] for node in node_list])
+    node_to_instances = this_group.nodes.new('GeometryNodeGeometryToInstance')
+    node_to_instances.location = [int(max_x + 200), 0]
+    
+    for node in reversed(node_list):
+        link(
+            node.outputs[output], 
+            node_to_instances.inputs['Geometry']
+        )
+    
+    return node_to_instances
+
+def nodes_to_geometry(this_group, node_list, output = 'Geometry', join_offset = 300):
+    link = this_group.links.new
+    max_x = max([node.location[0] for node in node_list])
+    node_to_instances = this_group.nodes.new('GeometryNodeJoinGeometry')
+    node_to_instances.location = [int(max_x + join_offset), 0]
+    
+    for node in reversed(node_list):
+        link(
+            node.outputs[output], 
+            node_to_instances.inputs['Geometry']
+        )
+    
+    return node_to_instances
+
 def split_geometry_to_instances(name, iter_list=('A', 'B', 'C'), attribute='chain_id'):
     """Create a Node to Split Geometry by an Attribute into Instances
     
@@ -644,9 +646,9 @@ def split_geometry_to_instances(name, iter_list=('A', 'B', 'C'), attribute='chai
         return node_group
     
     node_group = gn_new_group_empty(name)
-    # TODO add the translations here
-    node_input = node_group.nodes['Group Input']
-    node_output = node_group.nodes['Group Output']
+    
+    node_input = node_group.nodes[translate('Group Input')]
+    node_output = node_group.nodes[translate('Group Output')]
     
     add_node = node_group.nodes.new
     named_att = add_node('GeometryNodeInputNamedAttribute')
@@ -658,35 +660,23 @@ def split_geometry_to_instances(name, iter_list=('A', 'B', 'C'), attribute='chai
     list_sep = []
     
     for i, chain in enumerate(iter_list):
-        node_separate = add_node('GeometryNodeSeparateGeometry')
-        node_separate.location = [int(200 * i), 0]
-
-        node_compare = add_node('FunctionNodeCompare')
-        node_compare.location = [int(200 * i), -200]
-        node_compare.data_type = 'INT'
-        node_compare.operation = 'EQUAL'
-        node_compare.inputs[3].default_value = i
-
-        link(named_att.outputs[4], node_compare.inputs[2])
-        link(node_compare.outputs[0], node_separate.inputs['Selection'])
         
-        list_sep.append(node_separate)
+        pos = [i % 10, math.floor(i / 10)]
         
-        if i > 0:
-            link(list_sep[i - 1].outputs['Inverted'], node_separate.inputs['Geometry'])
-        else:
-            link(node_input.outputs['Geometry'], node_separate.inputs['Geometry'])
-    
-    node_instance = add_node('GeometryNodeGeometryToInstance')
+        node_split = add_custom_node_group_to_node(node_group, 'MOL_utils_split_instance')
+        node_split.location = [int(250 * pos[0]), int(-300 * pos[1])]
+        node_split.inputs['Group ID'].default_value = i
+        
 
-    for i, node in enumerate(reversed(list_sep)):
-        link(node.outputs['Selection'], node_instance.inputs['Geometry'])
+        link(named_att.outputs[4], node_split.inputs['Field'])
+        link(node_input.outputs['Geometry'], node_split.inputs['Geometry'])
+        
+        list_sep.append(node_split)
     
-    node_instance.location = [int(i * 200 + 200), 0]
-    node_output.location = [int(i * 200 + 400), 0]
+    node_instance = nodes_to_geometry(node_group, list_sep, 'Instance')
+    
+    node_output.location = [int(10 * 250 + 400), 0]
     link(node_instance.outputs[0], node_output.inputs[0])
     
     return node_group
-    
-    
     
