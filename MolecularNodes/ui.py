@@ -470,6 +470,12 @@ class MOL_OT_Assembly_Bio(bpy.types.Operator):
         structure file. Currently this is only supported for structures that were \
         downloaded from the PDB"
     bl_options = {"REGISTER", "UNDO"}
+    mol_assembly_by_chain: bpy.props.BoolProperty(
+        name = 'assembly_by_chain', 
+        description = '', 
+        default = False, 
+        subtype = 'NONE'
+        )
     
     @classmethod
     def poll(cls, context):
@@ -477,14 +483,15 @@ class MOL_OT_Assembly_Bio(bpy.types.Operator):
 
     def execute(self, context):
         obj = context.active_object
+        suffix = ""
+        if self.mol_assembly_by_chain:
+            suffix = "_by_chain"
         node_bio_assembly = assembly.node.create_biological_assembly_node(
-            name = obj.name, 
+            name = str(obj.name) + suffix, 
             assemblies_list = obj['bio_transform_dict'], 
             unique_chain_ids = obj['chain_id_unique'], 
-            by_chain = False
+            by_chain = self.mol_assembly_by_chain
         )
-        
-        
         
         mol_add_node(node_bio_assembly.name)
         
@@ -816,11 +823,18 @@ class MOL_MT_Add_Node_Menu_Assembly(bpy.types.Menu):
     def draw(self, context):
         layout = self.layout
         layout.operator_context = "INVOKE_DEFAULT"
-        layout.operator("mol.assembly_bio", 
-                        text = "Biological Assembly", 
+        op = layout.operator("mol.assembly_bio", 
+                        text = "Assembly", 
                         emboss = True, 
                         depress=True
                         )
+        op.mol_assembly_by_chain = False
+        op = layout.operator("mol.assembly_bio", 
+                        text = "Assembly By Chain (Slow)", 
+                        emboss = True, 
+                        depress=True
+                        )
+        op.mol_assembly_by_chain = True
         
         menu_item_interface(layout, 'Center Assembly', 'MOL_assembly_center', 
                             "Center the structure on the world origin based on \
