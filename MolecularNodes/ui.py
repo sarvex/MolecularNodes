@@ -924,9 +924,14 @@ class MOL_MT_Add_Node_Menu_Utilities(bpy.types.Menu):
     def draw(self, context):
         layout = self.layout
         layout.operator_context = "INVOKE_DEFAULT"
-        menu_item_interface(layout, 'Booelean Chain', 'MOL_utils_bool_chain')
-        menu_item_interface(layout, 'Rotation Matrix', 'MOL_utils_rotation_matrix')
-        menu_item_interface(layout, 'Curve Resample', 'MOL_utils_curve_resample')
+        menu_item_interface(layout, 'Booelean Chain', 
+                            'MOL_utils_bool_chain')
+        menu_item_interface(layout, 'Rotation Matrix', 
+                            'MOL_utils_rotation_matrix')
+        menu_item_interface(layout, 'Split Geometry to Instance', 
+                            'MOL_utils_split_instance')
+        menu_item_interface(layout, 'Curve Resample', 
+                            'MOL_utils_curve_resample')
 
 class MOL_MT_Add_Node_Menu(bpy.types.Menu):
     bl_idname = "MOL_MT_ADD_NODE_MENU"
