@@ -41,7 +41,7 @@ def create_biological_assembly_node(name, assemblies_list, unique_chain_ids, by_
         node_trans = nodes.add_custom_node_group_to_node(
             node_bio, 
             node.name, 
-            location = [-400, int(-400 * (i + 1))]
+            location = [-600, int(-150 * (i + 1))]
             )
         node_trans_list.append(node_trans)
     
@@ -191,16 +191,3 @@ def rotation_matrix_sym(node_group, sym, symmetry_id, assembly_id, chain,
     node.inputs['assembly'].default_value = assembly_id
     
     return node
-
-
-
-
-# def bio_assemblies_node(assemblies_list):
-#     node_list = []
-    
-#     for assembly, i in enumerate(assemblies_list):
-#         node_list.append(node_single_assembly(assembly, i))
-
-#     node_bio_assemblies = join_nodes(this_node, node_list)
-    
-#     return node_bio_assemblies
