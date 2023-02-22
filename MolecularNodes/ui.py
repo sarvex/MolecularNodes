@@ -477,21 +477,16 @@ class MOL_OT_Assembly_Bio(bpy.types.Operator):
 
     def execute(self, context):
         obj = context.active_object
-        # try:
         node_bio_assembly = assembly.node.create_biological_assembly_node(
             name = obj.name, 
             assemblies_list = obj['bio_transform_dict'], 
-            unique_chain_ids = obj['chain_id_unique']
+            unique_chain_ids = obj['chain_id_unique'], 
+            by_chain = False
         )
-        # except:
-            # node_bio_assembly = None
-            # self.report(
-            #     {'WARNING'}, 
-            #     message = 'Unable to detect biological assembly information.'
-            #     )
         
-        if node_bio_assembly:
-            mol_add_node(node_bio_assembly.name)
+        
+        
+        mol_add_node(node_bio_assembly.name)
         
         return {"FINISHED"}
 

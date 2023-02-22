@@ -1,8 +1,9 @@
 import bpy
 import numpy as np
+import warnings
 from .. import nodes
 
-def create_biological_assembly_node(name, assemblies_list, unique_chain_ids):
+def create_biological_assembly_node(name, assemblies_list, unique_chain_ids, by_chain = False):
     
     node_bio = bpy.data.node_groups.get('MOL_assembly_' + name)
     if node_bio:
@@ -21,7 +22,8 @@ def create_biological_assembly_node(name, assemblies_list, unique_chain_ids):
             name = f"MOL_data_{name}_assembly_{i}", 
             assembly = assembly, 
             unique_chain_ids = unique_chain_ids, 
-            assembly_id=i
+            assembly_id=i, 
+            by_chain = by_chain
             )    
         assembly_nodes_list.append(data_trans)
     
@@ -30,7 +32,7 @@ def create_biological_assembly_node(name, assemblies_list, unique_chain_ids):
     
     node_assembly = nodes.add_custom_node_group_to_node(
         node_bio, 
-        'MOL_utils_bio_assembly_by_chain', 
+        'MOL_utils_bio_assembly', 
         location=[0, 0]
         )
     
@@ -67,42 +69,66 @@ def create_biological_assembly_node(name, assemblies_list, unique_chain_ids):
             'name': 'Assembly ID', 
             'type': 'NodeSocketInt', 
             'default': 0
+        }, 
+        {
+            'name': 'By Chain', 
+            'type': 'NodeSocketBool', 
+            'default': False
         }
     )
     
     for input in inputs:
-        name = input.get('name')
-        type = input.get('type')
-        default = input.get('default')
+        try:
+            name = input.get('name')
+            type = input.get('type')
+            default = input.get('default')
+
+            node_bio.inputs.new(type, name)
+            node_bio.inputs.get(name).default_value = default
+            link(node_input.outputs[name], node_assembly.inputs[name])
+        except:
+            warnings.warn(
+                f"Unable to setup node input {name} while setting up {node_bio.name}."
+            )
         
-        node_bio.inputs.new(type, name)
-        node_bio.inputs.get(name).default_value = default
-        
-        link(node_input.outputs[name], node_assembly.inputs[name])
+    
+    node_bio.inputs['Assembly ID'].min_value = 0
+    node_bio.inputs['Assembly ID'].max_value = i
     
     return node_bio
 
-def create_assembly_node(name, assembly, unique_chain_ids, assembly_id):
+def create_assembly_node(name, assembly, unique_chain_ids, assembly_id, by_chain = False):
     
-    node_mat = bpy.data.node_groups.get('MOL_RotTransMat_' + name)
+    node_mat = bpy.data.node_groups.get(name)
     if node_mat:
         return node_mat
     
-    node_mat = nodes.gn_new_group_empty('MOL_RotTransMat_' + name)
+    node_mat = nodes.gn_new_group_empty(name)
     node_mat.inputs.remove(node_mat.inputs['Geometry'])
     node_mat.nodes['Group Output'].location = [800, 0]
     node_mat.outputs['Geometry'].name = 'RotTransMat'
     
     node_transform_list = []
     for i, sym in enumerate(assembly):
-        for chain in sym[0]:
-            chain_num = np.where(np.isin(unique_chain_ids, chain))[0][0]
+        if by_chain:
+            for chain in sym[0]:
+                chain_num = np.where(np.isin(unique_chain_ids, chain))[0][0]
+                node = rotation_matrix_sym(
+                    node_group=node_mat, 
+                    sym=sym, 
+                    symmetry_id=i,
+                    assembly_id=assembly_id,
+                    chain=chain_num,
+                    location=[0, 0 - (300 * i)]
+                )
+                node_transform_list.append(node)
+        else:
             node = rotation_matrix_sym(
-                node_group=node_mat, 
-                sym=sym, 
+                node_group = node_mat, 
+                sym = sym, 
                 symmetry_id=i,
                 assembly_id=assembly_id,
-                chain=chain_num,
+                chain=0,
                 location=[0, 0 - (300 * i)]
             )
             node_transform_list.append(node)
