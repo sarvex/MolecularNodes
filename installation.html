@@ -340,7 +340,7 @@ MacOS M1 &amp; M2
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Blender’s bundled python is unable to install python packages that require compilation on the user’s machine. Currently, MDAnalysis is missing a pre-compiled <code>.whl</code> to install, and thus installation will fail on M1 &amp; M2 machines. You can download and pre-compile these packages on your machine yourself, following the below instructions.</p>
-<p>The current fix is to create and link a separate python installation that is able to compile the packages correctly, as discussed <a href="https://github.com/BradyAJohnston/MolecularNodes/issues/108#issuecomment-1355965223">in this issue thread</a>.</p>
+<p>This is the current fix for M1 / M2 machines, but will be fixed in <a href="https://github.com/BradyAJohnston/MolecularNodes/issues/108#issuecomment-1467914853">future releases</a>.</p>
 <p>In short:</p>
 <ol type="1">
 <li>Install <a href="https://docs.conda.io/en/latest/miniconda.html">miniconda</a></li>
@@ -353,10 +353,13 @@ MacOS M1 &amp; M2
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip wheel MDAnalysis==2.2.0 <span class="at">--cache-dir</span> .</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="3" type="1">
-<li>Install the built <code>.whl</code> packages, into Blender’s bundled python.</li>
+<li>Install the built <code>.whl</code> packages, into Blender’s bundled python. The path to your</li>
 </ol>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /Applications/Blender.app/Contents/Resources/3.4/python/bin/</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./python3.10</span> <span class="at">-m</span> pip install biotite <span class="at">--cache-dir</span> ~/MDAnalysis-wheel</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Navigate to your Blender’s python folder.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /Applications/Blender.app/Contents/Resources/3.4/python/bin/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Install the cached <code>.whl</code> into the bundled python that came with Blender.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./python3.10</span> <span class="at">-m</span> pip install MDAnalysis <span class="at">--cache-dir</span> ~/MDAnalysis-wheel</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <kbd>Install Packages</kbd> button should now successfully install the remaining packages.</p>
 </div>
 </div>
 </div>
