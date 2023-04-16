@@ -1,1 +1,1 @@
-Sitemap: https://BradyAJohnston.github.io/MolecularNodes/sitemap.xml
+Sitemap: https://github.com/BradyAJohnston/MolecularNodes/sitemap.xml
