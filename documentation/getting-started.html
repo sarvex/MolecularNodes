@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.475">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Molecular Nodes - Getting Started</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Getting Started</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Molecular Nodes</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/BradyAJohnston/MolecularNodes" title="" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+    <a href="https://twitter.com/bradyajohnston" title="" class="sidebar-tool px-1"><i class="bi bi-twitter"></i></a>
+    <a href="https://youtube.com/c/bradyjohnston" title="" class="sidebar-tool px-1"><i class="bi bi-youtube"></i></a>
+  <a href="" class="quarto-color-scheme-toggle sidebar-tool" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../documentation/index.html" class="sidebar-item-text sidebar-link">Home</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../documentation/installation.html" class="sidebar-item-text sidebar-link">Installation</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../documentation/getting-started.html" class="sidebar-item-text sidebar-link active">Getting Started</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../documentation/examples.html" class="sidebar-item-text sidebar-link">Examples</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../documentation/documentation.html" class="sidebar-item-text sidebar-link">Documentation</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CHANGELOG.html" class="sidebar-item-text sidebar-link">Changelog</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../README.html" class="sidebar-item-text sidebar-link">MolecularNodes 🧬🍝💻</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#downloading-from-the-pdb" id="toc-downloading-from-the-pdb" class="nav-link active" data-scroll-target="#downloading-from-the-pdb"><span class="toc-section-number">1</span>  Downloading from the PDB</a></li>
+  <li><a href="#geometry-nodes" id="toc-geometry-nodes" class="nav-link" data-scroll-target="#geometry-nodes"><span class="toc-section-number">2</span>  Geometry Nodes</a>
+  <ul class="collapse">
+  <li><a href="#atomic-properties" id="toc-atomic-properties" class="nav-link" data-scroll-target="#atomic-properties">Atomic Properties</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Getting Started</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>This is a very basic introduction to Molecular Nodes. How to import a protein from the PDB &amp; change the colour and style via editing the node graph. Molecular Nodes and Geometry Nodes in general has a lot more advanced functionality, and I encourage you to watch other youtube tutorials and spend time playing around with it to see what is possible. Everything that I have achieved so far is through playing around to see what could be done.</p>
+<div class="callout-ip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+YouTube Tutorials
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I have also made a series of YouTube tutorials walking through some of the functionality of Molecular Nodes. Currently this tutorial series is for the older version of Molecular Nodes and not the 2.0 version. The basic functionality and idea remain the same, but I will be updating this series once I get enough time.</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/CvmFaRVmZRU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
+</iframe>
+</div>
+</div>
+<section id="downloading-from-the-pdb" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Downloading from the PDB</h1>
+<p>To download a model from the PDB, all you need is the 4-character PDB ID.</p>
+<section id="navigating-to-molecular-nodes-panel" class="level3">
+<h3 class="anchored" data-anchor-id="navigating-to-molecular-nodes-panel">Navigating to Molecular Nodes panel</h3>
+<p>Navigate to the Molecular Nodes panel under the Scene Properties tab.</p>
+<p><img src="images/CleanShot 2022-05-20 at 15.14.12.png" class="img-fluid"></p>
+<p>The Molecular Nodes panel should now be visible in the bottom right of the screen, you may need to scroll down the Scene Properties tab. If there is a button saying ‘Install Packages’ then you can click it to install the required python packages for your Blender installation.</p>
+<p><img src="https://i.imgur.com/LHM1fmk.png" class="img-fluid"></p>
+<p><img src="https://imgur.com/pWFq1FE.png" class="img-fluid"></p>
+</section>
+<section id="downloading-the-pdb-id" class="level3">
+<h3 class="anchored" data-anchor-id="downloading-the-pdb-id">Downloading the PDB ID</h3>
+<p>Input the 4-character code for the structure you wish to download and press the ‘Download’ button to download and import the structure into blender. You can select the default starting styling, if you want to start with ‘Ribbon’ or ‘Ball and Stick’ rather than the default ‘Atoms Cycles’.</p>
+<div class="callout-caution callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Large Structures with ‘Ball and Stick’
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If importing large structures, I recommend starting with ‘Atoms’ or ‘Ribbon’. ‘Ball and Stick’ is computationally quite a lot for Blender to process, and can crash your Blender on particularly large structures.</p>
+</div>
+</div>
+<p><img src="images/CleanShot 2022-05-20 at 15.24.38@2x-01.png" class="img-fluid"></p>
+</section>
+<section id="viewing-the-structure" class="level3">
+<h3 class="anchored" data-anchor-id="viewing-the-structure">Viewing the Structure</h3>
+<p>There should now be atoms visibly in the viewport, and a new collection in the collections tab that contains the structure and the properties for the imported protein.</p>
+<p><img src="images/CleanShot 2022-05-20 at 15.25.35.png" class="img-fluid"></p>
+<p>By default, the atoms are only visible in the Cycles render engine. Switch over to rendered view and change to Cycles to view the atoms of your structure.</p>
+<p><img src="images/CleanShot 2022-05-20 at 15.28.02.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="geometry-nodes" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Geometry Nodes</h1>
+<p>Switch over to the Geometry Nodes tab and change the viewport to rendered view, to view the atomic structure again.</p>
+<p><img src="images/CleanShot 2022-05-20 at 15.32.52.png" class="img-fluid"></p>
+<p>You can now interact with and manipulate the atoms in the structure using the nodes inside of geometry nodes.</p>
+<p>Try scaling the radius of the atoms by adjust the <code>Scale Radii</code> value on the <code>MOL_atomic_properties</code> node, or changing the base colours of the different elements.</p>
+<p><img src="images/CleanShot 2022-05-20 at 15.35.16.gif" class="img-fluid"></p>
+<section id="atomic-properties" class="level2">
+<h2 class="anchored" data-anchor-id="atomic-properties">Atomic Properties</h2>
+<p>A limitation of Molecular Nodes currently is the inability to have text attributes. To get around this, Molecular Nodes translates the different properties into numerical versions, and provides nodes to interact with the numeric versions of the data.</p>
+<section id="amino-acid-names" class="level3">
+<h3 class="anchored" data-anchor-id="amino-acid-names">Amino Acid Names</h3>
+<p>For example, the different amino-acid names have been assigned values from 1-20 based on alphabetical order. The properties is available from the <code>MOL_atomic_properties</code> nodes under the <code>AA_name</code> property. The property is a green diamond, indicating that it is an <em>integer field</em> and compatible with other numeric field sockets.</p>
+<p><img src="images/CleanShot 2022-05-20 at 15.42.31@2x.png" class="img-fluid"></p>
+<p>As an example, we can generate a random colour based on the <em>numerical representation</em> of the amino acid name, and colour out atoms based on that.</p>
+<p>Create a <code>Random Value</code> node by pressing <code>Shift + A</code> inside of the Geometry Nodes window and selecting <em>Utilities</em> -&gt; <em>Random Value</em>, and placing the node. Change the random type from <code>Float</code> to <code>Vector</code>. Plug the output of the <code>AA_name</code> into the <code>ID</code> of the <code>Random Value</code> node and plug the output into the different coloured sockets for the different elements in the <code>MOL_style_colour</code> node, as shown below.</p>
+<p>We are creating a random numerical vector, with generated from the amino acid name. While we have created a <em>numeric vector</em> and not a <em>colour vector,</em> Blender treats an <code>XYZ</code> vector the same as an <code>RGB</code> vector and <em>vice-versa</em>, so you can use them interchangeably.</p>
+<p><img src="images/CleanShot 2022-05-20 at 15.46.03@2x.png" class="img-fluid"></p>
+<p>The different atoms should now be coloured based on their amino-acid name.</p>
+<p><img src="images/CleanShot 2022-05-20 at 15.47.03@2x.png" class="img-fluid"></p>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">This site is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</div>   
+  </div>
+</footer>
+
+
+
+</body></html>
