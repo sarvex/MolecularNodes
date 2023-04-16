@@ -199,7 +199,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul class="collapse">
-  <li><a href="#downloading-requirements" id="toc-downloading-requirements" class="nav-link active" data-scroll-target="#downloading-requirements">Downloading Requirements</a></li>
+  <li><a href="#downloading-molecularnodes" id="toc-downloading-molecularnodes" class="nav-link active" data-scroll-target="#downloading-molecularnodes">Downloading MolecularNodes</a></li>
   <li><a href="#installing-the-addon" id="toc-installing-the-addon" class="nav-link" data-scroll-target="#installing-the-addon">Installing the Addon</a></li>
   <li><a href="#installing-biotite-mdanalysis" id="toc-installing-biotite-mdanalysis" class="nav-link" data-scroll-target="#installing-biotite-mdanalysis">Installing <code>Biotite</code> &amp; <code>MDAnalysis</code></a></li>
   <li><a href="#start-importing-structures" id="toc-start-importing-structures" class="nav-link" data-scroll-target="#start-importing-structures">Start Importing Structures!</a></li>
@@ -226,109 +226,72 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<p>To install molecular nodes, download the <a href="https://github.com/BradyAJohnston/MolecularNodes/releases">latest release</a> from the github releases page. Ensure that you have a version of Molecular Nodes that matches the version of Blender you have installed.</p>
-<div class="callout-caution callout callout-style-default callout-captioned">
+<section id="downloading-molecularnodes" class="level2">
+<h2 class="anchored" data-anchor-id="downloading-molecularnodes">Downloading MolecularNodes</h2>
+<p>Download the latest bundled release from the <a href="https://github.com/BradyAJohnston/MolecularNodes/releases/tag/v2.5.4">releases page</a>. Don’t download the GitHub repo itself, as this won’t install inside of Blender.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Blender Version 3.4
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Molecular Nodes <code>2.0</code> is only compatible with Blender 3.4 &amp; above.</p>
-<p>There are earlier versions of MN which are compatible with earlier versions of Blender, but these are no longer being developed or maintained and it is highly recommended that you use the most recent Blender and Molecular Nodes.</p>
-<p>Details for each release are available on the <a href="https://github.com/BradyAJohnston/MolecularNodes/releases">releases page</a>.</p>
-</div>
-</div>
-<section id="downloading-requirements" class="level2">
-<h2 class="anchored" data-anchor-id="downloading-requirements">Downloading Requirements</h2>
-<ol type="1">
-<li><p>Download and install Blender 3.4 from <a href="https://www.blender.org/download/">blender.org</a>.</p></li>
-<li><p>Download the latest MolecularNodes from the <a href="https://github.com/BradyAJohnston/MolecularNodes/releases/">MolecularNodes Releases Page</a>.</p></li>
-</ol>
-<div class="callout-warning callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-Download the Right Thing
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Importantly do not download the entire MolecularNodes GitHub repo and try to install that. Download the bundled release from the <a href="https://github.com/BradyAJohnston/MolecularNodes/releases">release page</a> and install that with Blender.</p>
-<p><img src="https://imgur.com/3thv8YM.png" class="img-fluid"></p>
-</div>
-</div>
-</section>
-<section id="installing-the-addon" class="level2">
-<h2 class="anchored" data-anchor-id="installing-the-addon">Installing the Addon</h2>
-<section id="open-a-new-session-of-blender" class="level3">
-<h3 class="anchored" data-anchor-id="open-a-new-session-of-blender">Open a New Session of Blender</h3>
-<div class="callout-warning callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-Administrator
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If you are on Windows, you may need to run Blender as Administrator to install additional dependencies successfully.</p>
-</div>
-</div>
-</section>
-<section id="open-preferences-panel" class="level3">
-<h3 class="anchored" data-anchor-id="open-preferences-panel">Open Preferences Panel</h3>
-<blockquote class="blockquote">
-<p>Click ‘Edit’ -&gt; ‘Preferences’ or press <kbd>Cmd</kbd> + <kbd> ,</kbd> on Mac.</p>
-</blockquote>
-<p><img src="https://imgur.com/Mv8tHMC.png" class="img-fluid"></p>
-</section>
-<section id="click-install-on-the-addon-page" class="level3">
-<h3 class="anchored" data-anchor-id="click-install-on-the-addon-page">Click ‘Install’ on the Addon Page</h3>
-<blockquote class="blockquote">
-<p>Click on the ‘Add-ons` tab on the middle left, then the ’Install’ button on the top right.</p>
-</blockquote>
-<p><img src="https://imgur.com/6ri9FUl.png" class="img-fluid"></p>
-</section>
-<section id="select-molecularnodes_x.zip" class="level3">
-<h3 class="anchored" data-anchor-id="select-molecularnodes_x.zip">Select <code>MolecularNodes_X.zip</code></h3>
-<blockquote class="blockquote">
-<p>The <code>X</code>’s will be the current version number of the add-on.</p>
-</blockquote>
-<div class="callout-warning callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-<code>.zip</code> Files
+Safari
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>When downloading on MacOS with Safari, it automatically unzips the file into a <code>MolecularNodes</code> folder. This is extremely unhelpful as Blender requires the <code>.zip</code> file to install the addon. Either download with a different browser, or compress the folder again to <code>MolecularNodes.zip</code>.</p>
 </div>
 </div>
-<p><img src="https://imgur.com/uFWZP42.png" class="img-fluid"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://github.com/BradyAJohnston/MolecularNodes/releases/tag/v2.5.4"><img src="images/mn-download.png" class="img-fluid figure-img" alt="Screenshot of the MolecularNodes releases page on Github, with the relvant download link circled in red."></a></p>
+</figure>
+</div>
 </section>
-<section id="enable-the-add-on" class="level3">
-<h3 class="anchored" data-anchor-id="enable-the-add-on">Enable the Add-on</h3>
-<p>If the preferences panel doesn’t automatically show the installed add-on, search for the add-on to find it. Tick the box in the upper-left corner to enable it.</p>
-<p><img src="https://imgur.com/8vVmzVt.png" class="img-fluid"></p>
-<p>The nodes are now enabled and available inside of Geometry Nodes in Blender. However to be able to download and parse structure files, additional python libraries will need to be installed via <code>pip</code> in the next step.</p>
+<section id="installing-the-addon" class="level2">
+<h2 class="anchored" data-anchor-id="installing-the-addon">Installing the Addon</h2>
+<div class="callout-warning callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Windows Administrator
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you are on Windows, you may need to run Blender as Administrator to successfully complete the following installation.</p>
+</div>
+</div>
+<section id="open-preferences-panel" class="level4">
+<h4 class="anchored" data-anchor-id="open-preferences-panel">Open Preferences Panel</h4>
+<blockquote class="blockquote">
+<p>Click `Edit’ -&gt; ‘Preferences’ or press <kbd>Cmd</kbd> + <kbd> ,</kbd> on Mac.</p>
+</blockquote>
+<p><img src="images/mn-pref-open.png" class="img-fluid"></p>
+</section>
+<section id="click-install-while-in-add-ons" class="level4">
+<h4 class="anchored" data-anchor-id="click-install-while-in-add-ons">Click ‘Install’ while in ‘Add-ons’</h4>
+<p><img src="images/mn-pref-install-zip.png" class="img-fluid"></p>
+</section>
+<section id="select-molecularnodes_x.zip" class="level4">
+<h4 class="anchored" data-anchor-id="select-molecularnodes_x.zip">Select <code>MolecularNodes_X.zip</code></h4>
+<blockquote class="blockquote">
+<p>The <code>X</code>’s will be the current version number of the add-on.</p>
+</blockquote>
 </section>
 </section>
 <section id="installing-biotite-mdanalysis" class="level2">
 <h2 class="anchored" data-anchor-id="installing-biotite-mdanalysis">Installing <code>Biotite</code> &amp; <code>MDAnalysis</code></h2>
-<p>There are two additional python packages which are required for MolecularNodes to function.</p>
-<p><a href="https://biotite-python.org"><code>Biotite</code></a> handles the majority of the structure file parsing. <a href="https://www.mdanalysis.org/"><code>MDAnalysis</code></a> handles the reading of molecular dynamics trajectories.</p>
-<p>To install both packages, it should be a single button press inside of Blender, unless you are on an M1 or M2 Mac.</p>
+<p>To import different data formats, different python packages are required to be installed. Each python package is responsible for importing a different data format.</p>
+<ul>
+<li><p><code>Biotite</code>: handles the majority of <code>.pdb</code> / <code>.cif</code> file parsing and downloading from the wwPDB.</p></li>
+<li><p><code>MDAnalysis</code>: enables import of molecular dynamics trajectories from programs such as GROMACS / LAMMPS.</p></li>
+<li><p><code>mrcfile</code>: enables import of electron microscopy densities and EM tomography <code>.map</code> files.</p></li>
+</ul>
+<p>Each of these packages should be fine to be installed by a single click. Blender will freeze for potentially a minute or so during installation. Currently M1 / M2 macs require more complex installation to install <code>MDAnalysis</code>, please see the instructions below. Downloading from the wwPDB and opening local <code>.pdb</code> files with <code>Biotite</code> should work fine without <code>MDAnalysis</code> installed.</p>
 <div class="callout-warning callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -337,7 +300,7 @@ MacOS M1 &amp; M2
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Blender’s bundled python is unable to install python packages that require compilation on the user’s machine. Currently, MDAnalysis is missing a pre-compiled <code>.whl</code> to install, and thus installation will fail on M1 &amp; M2 machines. You can download and pre-compile these packages on your machine yourself, following the below instructions.</p>
 <p>This is the current fix for M1 / M2 machines, but will be fixed in <a href="https://github.com/BradyAJohnston/MolecularNodes/issues/108#issuecomment-1467914853">future releases</a>.</p>
@@ -355,17 +318,17 @@ MacOS M1 &amp; M2
 <ol start="3" type="1">
 <li>Install the built <code>.whl</code> packages, into Blender’s bundled python. The path to your</li>
 </ol>
-<p>Navigate to your Blender’s python folder.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /Applications/Blender.app/Contents/Resources/3.4/python/bin/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Navigate to your Blender’s python folder (this is the path for Blender 3.5)</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /Applications/Blender.app/Contents/Resources/3.5/python/bin/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Install the cached <code>.whl</code> into the bundled python that came with Blender.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./python3.10</span> <span class="at">-m</span> pip install MDAnalysis <span class="at">--cache-dir</span> ~/MDAnalysis-wheel</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The <kbd>Install Packages</kbd> button should now successfully install the remaining packages.</p>
 </div>
 </div>
 </div>
-<p><img src="https://i.imgur.com/ePIhaGq.png" class="img-fluid"></p>
-<p>The ‘Install Packages’ button should install the required python packages. Blender will freeze from anywhere between 30 seconds to several minutes, depending on the speed of your computer and internet connection. Once Blender un-freezes the button should disappear and be replaced by the Molecular Nodes panel. If this occurs then everything should be ready to use, try it out by downloading a structure from the pdb!</p>
-<p>If the button does not disappear or you receive some kind of error message, search through the <a href="https://github.com/BradyAJohnston/MolecularNodes/issues">issues page</a> for a potential solution. If you can’t find the solution there, please open a new issue on the GitHub page. Please don’t just DM or email me directly. It’s better to do problem solving out in the open, as others might have the same issue or someone other than me may already have a solution!</p>
+<p><img src="images/mn-pref-install-packages.png" class="img-fluid"></p>
+<p>A message should report the successful installation of each package, with the button changing to <kbd>Reinstall biotite</kbd> once MolecularNodes detects the successful installation of the package.</p>
+<p>If you have troubled with installation, search through the <a href="https://github.com/BradyAJohnston/MolecularNodes/issues">issues page</a> for a potential solution. If you can’t find the solution there, please open a new issue on the GitHub page. Please don’t just DM or email me directly. It’s better to do problem solving out in the open, as others might have the same issue or someone other than me may already have a solution!</p>
 </section>
 <section id="start-importing-structures" class="level1">
 <h1>Start Importing Structures!</h1>

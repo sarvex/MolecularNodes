@@ -136,11 +136,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul class="collapse">
-  <li><a href="#downloading-from-the-pdb" id="toc-downloading-from-the-pdb" class="nav-link active" data-scroll-target="#downloading-from-the-pdb"><span class="toc-section-number">1</span>  Downloading from the PDB</a></li>
-  <li><a href="#geometry-nodes" id="toc-geometry-nodes" class="nav-link" data-scroll-target="#geometry-nodes"><span class="toc-section-number">2</span>  Geometry Nodes</a>
-  <ul class="collapse">
-  <li><a href="#atomic-properties" id="toc-atomic-properties" class="nav-link" data-scroll-target="#atomic-properties">Atomic Properties</a></li>
-  </ul></li>
+  <li><a href="#the-molecularnodes-panel" id="toc-the-molecularnodes-panel" class="nav-link active" data-scroll-target="#the-molecularnodes-panel">The MolecularNodes Panel</a></li>
+  <li><a href="#rendered-view" id="toc-rendered-view" class="nav-link" data-scroll-target="#rendered-view">Rendered View</a></li>
+  <li><a href="#the-grid-and-axes" id="toc-the-grid-and-axes" class="nav-link" data-scroll-target="#the-grid-and-axes">The Grid and Axes</a></li>
+  <li><a href="#geometry-nodes-editor" id="toc-geometry-nodes-editor" class="nav-link" data-scroll-target="#geometry-nodes-editor">Geometry Nodes Editor</a></li>
+  <li><a href="#quick-animations" id="toc-quick-animations" class="nav-link" data-scroll-target="#quick-animations">Quick Animations</a></li>
   </ul>
 </nav>
     </div>
@@ -164,7 +164,7 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>This is a very basic introduction to Molecular Nodes. How to import a protein from the PDB &amp; change the colour and style via editing the node graph. Molecular Nodes and Geometry Nodes in general has a lot more advanced functionality, and I encourage you to watch other youtube tutorials and spend time playing around with it to see what is possible. Everything that I have achieved so far is through playing around to see what could be done.</p>
+<p>This is a very basic introduction to Molecular Nodes. How to import a protein from the PDB &amp; change the colour and style via editing the node graph. Molecular Nodes and Geometry Nodes in general has a lot more advanced functionality, and I encourage you to watch other YouTube tutorials and spend time playing around with it to see what is possible. Everything that I have achieved so far is through playing around to see what could be done.</p>
 <div class="callout-ip callout callout-style-default no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -180,67 +180,74 @@ YouTube Tutorials
 </iframe>
 </div>
 </div>
-<section id="downloading-from-the-pdb" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Downloading from the PDB</h1>
-<p>To download a model from the PDB, all you need is the 4-character PDB ID.</p>
-<section id="navigating-to-molecular-nodes-panel" class="level3">
-<h3 class="anchored" data-anchor-id="navigating-to-molecular-nodes-panel">Navigating to Molecular Nodes panel</h3>
-<p>Navigate to the Molecular Nodes panel under the Scene Properties tab.</p>
-<p><img src="images/CleanShot 2022-05-20 at 15.14.12.png" class="img-fluid"></p>
-<p>The Molecular Nodes panel should now be visible in the bottom right of the screen, you may need to scroll down the Scene Properties tab. If there is a button saying ‘Install Packages’ then you can click it to install the required python packages for your Blender installation.</p>
-<p><img src="https://i.imgur.com/LHM1fmk.png" class="img-fluid"></p>
-<p><img src="https://imgur.com/pWFq1FE.png" class="img-fluid"></p>
+<section id="the-molecularnodes-panel" class="level2">
+<h2 class="anchored" data-anchor-id="the-molecularnodes-panel">The MolecularNodes Panel</h2>
+<ol type="1">
+<li>Click on the <code>Scene Properties</code> panel, which will show the <code>MolecularNodes</code> panel, which has the buttons and options for downloading and importing protein structures.</li>
+<li>Enter your PDB ID of choice and click on download. This will import the molecular data into Blender, and you will see a new object appear in the Outliner (top right) under the MolecularNodes collection.</li>
+</ol>
+<p><img src="images/mn-panel-download-pdb.png" class="img-fluid"></p>
+<p>The structure is now imported into the scene. While initially the structure will appear as grey points, this is because Blender has a 3D view for working, then a Rendered view for actually rendering with calculated lighting.</p>
 </section>
-<section id="downloading-the-pdb-id" class="level3">
-<h3 class="anchored" data-anchor-id="downloading-the-pdb-id">Downloading the PDB ID</h3>
-<p>Input the 4-character code for the structure you wish to download and press the ‘Download’ button to download and import the structure into blender. You can select the default starting styling, if you want to start with ‘Ribbon’ or ‘Ball and Stick’ rather than the default ‘Atoms Cycles’.</p>
-<div class="callout-caution callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-Large Structures with ‘Ball and Stick’
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If importing large structures, I recommend starting with ‘Atoms’ or ‘Ribbon’. ‘Ball and Stick’ is computationally quite a lot for Blender to process, and can crash your Blender on particularly large structures.</p>
-</div>
-</div>
-<p><img src="images/CleanShot 2022-05-20 at 15.24.38@2x-01.png" class="img-fluid"></p>
+<section id="rendered-view" class="level2">
+<h2 class="anchored" data-anchor-id="rendered-view">Rendered View</h2>
+<ol type="1">
+<li>Click the ‘Render Properties’ tab, which has the icon for the back of a camera.</li>
+<li>Change the render engine from EEVEE to Cycles.</li>
+<li>Change the render device from CPU to GPU if applicable. Some computers may not have GPU compute available.</li>
+<li>Change the view to rendered view, which will calculate the lighting for the scene and show all of the atoms.</li>
+</ol>
+<p><img src="images/mn-render-cycles.png" class="img-fluid"></p>
 </section>
-<section id="viewing-the-structure" class="level3">
-<h3 class="anchored" data-anchor-id="viewing-the-structure">Viewing the Structure</h3>
-<p>There should now be atoms visibly in the viewport, and a new collection in the collections tab that contains the structure and the properties for the imported protein.</p>
-<p><img src="images/CleanShot 2022-05-20 at 15.25.35.png" class="img-fluid"></p>
-<p>By default, the atoms are only visible in the Cycles render engine. Switch over to rendered view and change to Cycles to view the atoms of your structure.</p>
-<p><img src="images/CleanShot 2022-05-20 at 15.28.02.png" class="img-fluid"></p>
+<section id="the-grid-and-axes" class="level2">
+<h2 class="anchored" data-anchor-id="the-grid-and-axes">The Grid and Axes</h2>
+<p>This 3D viewport will seem familiar if you have used other programs such as PyMol, ChimeraX &amp; VMD. You can move the camera around just like in those other programs.</p>
+<p>You can rotate the camera view either using the middle mouse button <kbd>MMB</kbd>, or using your touch pad if you are on a laptop. You can also click and drag the axis widget to rotate the camera.</p>
+<p>You can pan the camera using <kbd>Shift</kbd> + <kbd>MMB</kbd></p>
+<p>The main difference is that you can also manipulate the 3D scene in front of you. You can select objects with a left click of the mouse, and move them around by <em>Grabbing</em> them with the <kbd>G</kbd> key.</p>
+<p>The main actions that you use the 3D Viewport for are:<br>
+</p>
+<ul>
+<li><p><kbd>G</kbd> - <strong>Grabbing:</strong> Moving an object around in 3D space.</p></li>
+<li><p><kbd>S</kbd> - <strong>Scaling:</strong> Changing the relative size of an object.</p></li>
+<li><p><kbd>R</kbd> - <strong>Rotating:</strong> Rotating the object in 3D space.</p></li>
+</ul>
+<p>In the 3D viewport, much like in real life, there are 3 axes of possible movement and direction. Inside of Blender they are <code>X</code> <code>Y</code> and <code>Z</code>. <code>X</code> and <code>Y</code> form the flat grid that you see in the viewport, being coloured TODO red and green respectively, while <code>Z</code> is the blue vertical axis. These are labelled and highlighted on the axis widget, which is present in the top right corner of the viewport. This will rotate as you rotate the view, so it can always be used as a reference point.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/paste-E98C8D82.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">The axis widget, present in the 3D viewport.</figcaption><p></p>
+</figure>
+</div>
 </section>
+<section id="geometry-nodes-editor" class="level2">
+<h2 class="anchored" data-anchor-id="geometry-nodes-editor">Geometry Nodes Editor</h2>
+<p>This is where we edit the node graph for Molecular Nodes. The node graph is a program you create, that is read and executed by Blender from left to right. Each node performs an action on the geometry that is passed into it, and the result of that action is passed out to the right.</p>
+<blockquote class="blockquote">
+<p>Think of it as creating a set of rules for the computer to follow. You define the rules, and the computer can follow those same rules, even if you start with a different data set.</p>
+</blockquote>
+<p>Combining multiple different nodes you can create protein models and complex 3D scenes. In the example below, there is a node tree which should be present on every new structure imported via MolecularNodes. The atoms and bonds are passed in from the left, the atoms are given a colour based on their element and their <code>chain_id</code>, and then the atoms are styled as atoms, scaling the atom radii to <code>1.00</code>.</p>
+<p><img src="images/mn-gn-workspace.png" class="img-fluid"></p>
+<p>The starting style <code>MOL_style_atoms_cycles</code> is only visible via inside of the Cycles render engine. You can add other styles manipulate the data through other nodes, by adding them with <kbd>Shift</kbd> + <kbd>A</kbd> and navigating to the MolecularNodes panel at the bottom. There are several categories of nodes for different animations and styles. You can add the <code>Ribbon Protein</code> node, which will create a ribbon representation based on the alpha carbons in the structure. If there is not colour in the structure, ensure that the node has a material <code>MOL_atomic_material</code> at the bottom of the node.</p>
+<p><img src="images/mn-gn-style-ribbon.png" class="img-fluid"></p>
 </section>
-<section id="geometry-nodes" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Geometry Nodes</h1>
-<p>Switch over to the Geometry Nodes tab and change the viewport to rendered view, to view the atomic structure again.</p>
-<p><img src="images/CleanShot 2022-05-20 at 15.32.52.png" class="img-fluid"></p>
-<p>You can now interact with and manipulate the atoms in the structure using the nodes inside of geometry nodes.</p>
-<p>Try scaling the radius of the atoms by adjust the <code>Scale Radii</code> value on the <code>MOL_atomic_properties</code> node, or changing the base colours of the different elements.</p>
-<p><img src="images/CleanShot 2022-05-20 at 15.35.16.gif" class="img-fluid"></p>
-<section id="atomic-properties" class="level2">
-<h2 class="anchored" data-anchor-id="atomic-properties">Atomic Properties</h2>
-<p>A limitation of Molecular Nodes currently is the inability to have text attributes. To get around this, Molecular Nodes translates the different properties into numerical versions, and provides nodes to interact with the numeric versions of the data.</p>
-<section id="amino-acid-names" class="level3">
-<h3 class="anchored" data-anchor-id="amino-acid-names">Amino Acid Names</h3>
-<p>For example, the different amino-acid names have been assigned values from 1-20 based on alphabetical order. The properties is available from the <code>MOL_atomic_properties</code> nodes under the <code>AA_name</code> property. The property is a green diamond, indicating that it is an <em>integer field</em> and compatible with other numeric field sockets.</p>
-<p><img src="images/CleanShot 2022-05-20 at 15.42.31@2x.png" class="img-fluid"></p>
-<p>As an example, we can generate a random colour based on the <em>numerical representation</em> of the amino acid name, and colour out atoms based on that.</p>
-<p>Create a <code>Random Value</code> node by pressing <code>Shift + A</code> inside of the Geometry Nodes window and selecting <em>Utilities</em> -&gt; <em>Random Value</em>, and placing the node. Change the random type from <code>Float</code> to <code>Vector</code>. Plug the output of the <code>AA_name</code> into the <code>ID</code> of the <code>Random Value</code> node and plug the output into the different coloured sockets for the different elements in the <code>MOL_style_colour</code> node, as shown below.</p>
-<p>We are creating a random numerical vector, with generated from the amino acid name. While we have created a <em>numeric vector</em> and not a <em>colour vector,</em> Blender treats an <code>XYZ</code> vector the same as an <code>RGB</code> vector and <em>vice-versa</em>, so you can use them interchangeably.</p>
-<p><img src="images/CleanShot 2022-05-20 at 15.46.03@2x.png" class="img-fluid"></p>
-<p>The different atoms should now be coloured based on their amino-acid name.</p>
-<p><img src="images/CleanShot 2022-05-20 at 15.47.03@2x.png" class="img-fluid"></p>
+<section id="quick-animations" class="level2">
+<h2 class="anchored" data-anchor-id="quick-animations">Quick Animations</h2>
+<p>There are many ways to quickly create animations inside of Blender and MolecularNodes. One such way is to use the <code>Wiggle</code> node inside of MolecularNodes. This wiggles the amino acid side chains, based on their experimentally-determined B-factor, to give life to the structure. Crystral structures are ultimately static snapshots of a dynamic system, and this is a quick way to bring some of those dynamics back to the structure.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/mn-wiggle-example.gif" class="img-fluid figure-img" alt="A gif showing amino acids wiggling and moving about as part of a protein cystral structure. Their movement is scaled based on their experimentally determined B-factor."></p>
+<p></p><figcaption class="figure-caption">Quickly adding life to a crystal structure.</figcaption><p></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/mn-wiggle-nodes.png" class="img-fluid figure-img" alt="A screenshot of some geometry nodes inside of Blender. The major nodes pictured are 'MOL_style_colour', 'MOL_animate_res_wiggle' and 'MOL_style_ball_and_stick' which result in an animation of amino acids wiggling about inside of a protein structure."></p>
+<p></p><figcaption class="figure-caption">The nodes used in the wiggle animation above.</figcaption><p></p>
+</figure>
+</div>
 
 
-</section>
-</section>
 </section>
 
 </main> <!-- /main -->
