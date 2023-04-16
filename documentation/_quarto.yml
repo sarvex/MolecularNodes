@@ -33,7 +33,7 @@ website:
 format:
   html:
     theme: sandstone
-    css: styles.css
+    # css: styles.css
     toc: true
     toc-depth: 2
 
