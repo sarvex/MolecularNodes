@@ -19,14 +19,14 @@ def map_to_grid(file: str, invert: bool = False) -> vdb.FloatGrid:
     """
     import mrcfile
     volume = mrcfile.read(file)
-    
+
     dataType = volume.dtype
-    
+
     # enables different grid types
-    
-    if dataType == "float32" or dataType == "float64":
+
+    if dataType in ["float32", "float64"]:
         grid = vdb.FloatGrid()
-    elif dataType == "int8" or dataType == "int16" or dataType == "int32":
+    elif dataType in ["int8", "int16", "int32"]:
         volume = volume.astype('int32')
         grid = vdb.Int32Grid()
     elif dataType == "int64":
@@ -34,12 +34,12 @@ def map_to_grid(file: str, invert: bool = False) -> vdb.FloatGrid:
 
     if invert:
         volume = np.max(volume) - volume
-    
+
     try:
         grid.copyFromArray(volume)
     except ValueError:
         print(f"Grid data type '{volume.dtype}' is an unsupported type.")
-    
+
     grid.gridClass = vdb.GridClass.FOG_VOLUME
     grid.name = 'density'
     return grid
@@ -48,9 +48,8 @@ def path_to_vdb(file: str):
     # Set up file paths
     folder_path = os.path.dirname(file)
     name = os.path.basename(file).split(".")[0]
-    file_name = name + '.vdb'
-    file_path = os.path.join(folder_path, file_name)
-    return file_path
+    file_name = f'{name}.vdb'
+    return os.path.join(folder_path, file_name)
     
 
 def map_to_vdb(file: str, invert: bool = False, world_scale=0.01, overwrite=False) -> str:
@@ -102,7 +101,7 @@ def vdb_to_volume(file: str) -> bpy.types.Object:
     """
     # extract name of file for object name
     name = os.path.basename(file).split('.')[0]
-    
+
     # import the volume object
     bpy.ops.object.volume_import(
         filepath = file, 
@@ -110,10 +109,8 @@ def vdb_to_volume(file: str) -> bpy.types.Object:
         scale = [1, 1, 1], 
         rotation = [0, 0, 0]
     )
-    
-    # get reference to imported object and return
-    vol = bpy.context.scene.objects[name]
-    return vol
+
+    return bpy.context.scene.objects[name]
 
 
 def load(file: str, name: str = None, invert: bool = False, world_scale: float = 0.01) -> bpy.types.Object:

@@ -77,16 +77,16 @@ def load_trajectory(file_top,
     
     import MDAnalysis as mda
     import MDAnalysis.transformations as trans
-    
+
     # initially load in the trajectory
     if file_traj == "":
         univ = mda.Universe(file_top)
     else:
         univ = mda.Universe(file_top, file_traj)
-        
+
     # separate the trajectory, separate to the topology or the subsequence selections
     traj = univ.trajectory[md_start:md_end:md_step]
-    
+
     # if there is a non-blank selection, apply the selection text to the universe for 
     # later use. This also affects the trajectory, even though it has been separated earlier
     if selection != "":
@@ -94,7 +94,7 @@ def load_trajectory(file_top,
             univ = univ.select_atoms(selection)
         except:
             warnings.warn(f"Unable to apply selection: '{selection}'. Loading entire topology.")
-    
+
     # Try and extract the elements from the topology. If the universe doesn't contain
     # the element information, then guess based on the atom names in the toplogy
     try:
@@ -104,9 +104,9 @@ def load_trajectory(file_top,
             elements = [mda.topology.guessers.guess_atom_element(x) for x in univ.atoms.names]
         except:
             pass
-        
-    
-    
+
+
+
     if hasattr(univ, 'bonds') and include_bonds:
 
             # If there is a selection, we need to recalculate the bond indices
@@ -123,7 +123,7 @@ def load_trajectory(file_top,
                         # deleted by the selection, so we shouldn't 
                         # pass this as a bond.  
                         pass
-                    
+
                 bonds = np.array(new_bonds)
             else:
                 bonds = univ.bonds.indices
@@ -131,7 +131,7 @@ def load_trajectory(file_top,
     else:
         bonds = []
 
-    
+
     # create the initial model
     mol_object = create_object(
         name = name,
@@ -139,15 +139,15 @@ def load_trajectory(file_top,
         locations = univ.atoms.positions * world_scale, 
         bonds = bonds
     )
-    
+
     ## add the attributes for the model
-    
+
     # The attributes for the model are initially defined as single-use functions. This allows
     # for a loop that attempts to add each attibute by calling the function. Only during this
     # loop will the call fail if the attribute isn't accessible, and the warning is reported
     # there rather than setting up a try: except: for each individual attribute which makes
     # some really messy code.
-    
+
     def att_atomic_number():
         atomic_number = np.array(list(map(
             # if getting the element fails for some reason, return an atomic number of -1
@@ -166,49 +166,49 @@ def load_trajectory(file_top,
             # if fail to get radii, just return radii of 1 for everything as a backup
             vdw_radii = np.ones(len(univ.atoms.names))
             warnings.warn("Unable to extract VDW Radii. Defaulting to 1 for all points.")
-        
+
         return vdw_radii * world_scale
-    
+
     def att_res_id():
         return univ.atoms.resnums
-    
+
     def att_res_name():
-        res_names =  np.array(list(map(lambda x: x[0: 3], univ.atoms.resnames)))
+        res_names = np.array(list(map(lambda x: x[:3], univ.atoms.resnames)))
         res_numbers = np.array(list(map(
             lambda x: data.residues.get(x, {'res_name_num': 0}).get('res_name_num'), 
             res_names
             )))
         return res_numbers
-    
+
     def att_b_factor():
         return univ.atoms.tempfactors
-    
+
     def att_chain_id():
         chain_id = univ.atoms.chainIDs
         chain_id_unique = np.unique(chain_id)
         chain_id_num = np.array(list(map(lambda x: np.where(x == chain_id_unique)[0][0], chain_id)))
         mol_object['chain_id_unique'] = chain_id_unique
         return chain_id_num
-    
+
     # returns a numpy array of booleans for each atom, whether or not they are in that selection
     def bool_selection(selection):
         return np.isin(univ.atoms.ix, univ.select_atoms(selection).ix).astype(bool)
-    
+
     def att_is_backbone():
         return bool_selection("backbone or nucleicbackbone")
-    
+
     def att_is_alpha_carbon():
         return bool_selection('name CA')
-    
+
     def att_is_solvent():
         return bool_selection('name OW or name HW1 or name HW2')
-    
+
     def att_atom_type():
         return np.array(univ.atoms.types, dtype = int)
-    
+
     def att_is_nucleic():
         return bool_selection('nucleic')
-    
+
     def att_is_peptide():
         return bool_selection('protein')
 
@@ -226,7 +226,7 @@ def load_trajectory(file_top,
         {'name': 'is_nucleic',      'value': att_is_nucleic,      'type': 'BOOLEAN', 'domain': 'POINT'}, 
         {'name': 'is_peptide',      'value': att_is_peptide,      'type': 'BOOLEAN', 'domain': 'POINT'}, 
     )
-    
+
     for att in attributes:
         # tries to add the attribute to the mesh by calling the 'value' function which returns
         # the required values do be added to the domain.
@@ -250,13 +250,13 @@ def load_trajectory(file_top,
                 warnings.warn("Unable to add custom selection: {}".format(sel.name))
 
     coll_frames = coll.frames(name)
-    
+
     add_occupancy = True
     for ts in traj:
         frame = create_object(
-            name = name + "_frame_" + str(ts.frame),
-            collection = coll_frames, 
-            locations = univ.atoms.positions * world_scale
+            name=f"{name}_frame_{str(ts.frame)}",
+            collection=coll_frames,
+            locations=univ.atoms.positions * world_scale,
         )
         # adds occupancy data to each frame if it exists
         # This is mostly for people who want to store frame-specific information in the 
@@ -269,9 +269,9 @@ def load_trajectory(file_top,
                 add_attribute(frame, 'occupancy', ts.data['occupancy'])
             except:
                 add_occupancy = False
-    
+
     # disable the frames collection from the viewer
     bpy.context.view_layer.layer_collection.children[coll.mn().name].children[coll_frames.name].exclude = True
-    
+
     return mol_object, coll_frames
     

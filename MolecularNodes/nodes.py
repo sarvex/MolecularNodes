@@ -24,18 +24,18 @@ socket_types = {
     }
 
 def mol_append_node(node_name):
-    if bpy.data.node_groups.get(node_name):
-        pass
-    else:
+    if not bpy.data.node_groups.get(node_name):
         before_data = list(bpy.data.node_groups)
         bpy.ops.wm.append(
             directory = os.path.join(
                     os.path.dirname(__file__), 'assets', 'node_append_file.blend' + r'/NodeTree'), 
                     filename = node_name, 
                     link = False
-                )   
-        new_data = list(filter(lambda d: not d in before_data, list(bpy.data.node_groups)))
-    
+                )
+        new_data = list(
+            filter(lambda d: d not in before_data, list(bpy.data.node_groups))
+        )
+
     return bpy.data.node_groups[node_name]
 
 def mol_base_material():
@@ -235,9 +235,9 @@ def create_starting_node_tree(obj, coll_frames, starting_style = "atoms"):
     obj.modifiers.active = node_mod
 
     # create a new GN node group, specific to this particular molecule
-    node_group = gn_new_group_empty("MOL_" + str(obj.name))
+    node_group = gn_new_group_empty(f"MOL_{str(obj.name)}")
     node_mod.node_group = node_group
-    
+
     # TODO check if can delete this loop
     # ensure the required setup nodes either already exist or append them
     # required_setup_nodes = ['MOL_prop_setup', 'MOL_style_color']
@@ -245,54 +245,54 @@ def create_starting_node_tree(obj, coll_frames, starting_style = "atoms"):
     #     required_setup_nodes = ['MOL_prop_setup', 'MOL_style_color', 'MOL_animate', 'MOL_animate_frames']
     # for node_group in required_setup_nodes:
     #     mol_append_node(node_group)
-    
+
     # move the input and output nodes for the group
     node_input = node_mod.node_group.nodes[bpy.app.translations.pgettext_data("Group Input",)]
     node_input.location = [0, 0]
     node_output = node_mod.node_group.nodes[bpy.app.translations.pgettext_data("Group Output",)]
     node_output.location = [800, 0]
-    
+
     # node_properties = add_custom_node_group(node_group, 'MOL_prop_setup', [0, 0])
     node_colour = add_custom_node_group(node_mod, 'MOL_style_color', [200, 0])
-    
+
     node_random_colour = node_group.nodes.new("FunctionNodeRandomValue")
     node_random_colour.data_type = 'FLOAT_VECTOR'
     node_random_colour.location = [-60, -200]
-    
+
     node_chain_id = node_group.nodes.new("GeometryNodeInputNamedAttribute")
     node_chain_id.location = [-250, -450]
     node_chain_id.data_type = "INT"
     node_chain_id.inputs['Name'].default_value = "chain_id"
-    
-    
-    
+
+
+
     # create the links between the the nodes that have been established
     link = node_group.links.new
     link(node_input.outputs['Geometry'], node_colour.inputs['Atoms'])
     link(node_colour.outputs['Atoms'], node_output.inputs['Geometry'])
     link(node_random_colour.outputs['Value'], node_colour.inputs['Carbon'])
     link(node_chain_id.outputs[4], node_random_colour.inputs['ID'])
-    
+
     styles = ['MOL_style_atoms_cycles', 'MOL_style_ribbon_protein', 'MOL_style_ball_and_stick']
-    
+
     # if starting_style == "atoms":
-    
+
     node_style = add_custom_node_group(node_mod, styles[starting_style], location = [500, 0])
     link(node_colour.outputs['Atoms'], node_style.inputs['Atoms'])
     link(node_style.outputs[0], node_output.inputs['Geometry'])
     node_style.inputs['Material'].default_value = mol_base_material()
 
-    
+
     # if multiple frames, set up the required nodes for an aniamtion
     if coll_frames:
         node_output.location = [1100, 0]
         node_style.location = [800, 0]
-        
+
         node_animate_frames = add_custom_node_group_to_node(node_group, 'MOL_animate_frames', [500, 0])
         node_animate_frames.inputs['Frames'].default_value = coll_frames
-        
+
         # node_animate_frames.inputs['Absolute Frame Position'].default_value = True
-        
+
         node_animate = add_custom_node_group_to_node(node_group, 'MOL_animate_value', [500, -300])
         link(node_colour.outputs['Atoms'], node_animate_frames.inputs['Atoms'])
         link(node_animate_frames.outputs['Atoms'], node_style.inputs['Atoms'])
@@ -447,11 +447,9 @@ def chain_selection(node_name, input_list, attribute, starting_value = 0, label_
     Can contain a prefix for the resulting labels. Mostly used for constructing 
     chain selections when required for specific proteins.
     """
-    # just reutn the group name early if it already exists
-    group = bpy.data.node_groups.get(node_name)
-    if group:
+    if group := bpy.data.node_groups.get(node_name):
         return group
-    
+
     # get the active object, might need to change to taking an object as an input
     # and making it active isntead, to be more readily applied to multiple objects
     obj = bpy.context.active_object
@@ -459,10 +457,10 @@ def chain_selection(node_name, input_list, attribute, starting_value = 0, label_
     node_mod = obj.modifiers.get('MolecularNodes')
     if not node_mod:
         node_mod = obj.modifiers.new("MolecularNodes", "NODES")
-    
+
     obj.modifiers.active = node_mod
-    
-    
+
+
     # link shortcut for creating links between nodes
     link = node_mod.node_group.links.new
     # create the custom node group data block, where everything will go
@@ -536,7 +534,7 @@ def chain_color(node_name, input_list, label_prefix = "Chain "):
     """
     
     import random
-    
+
     # get the active object, might need to change to taking an object as an input
     # and making it active isntead, to be more readily applied to multiple objects
     obj = bpy.context.active_object
@@ -544,21 +542,21 @@ def chain_color(node_name, input_list, label_prefix = "Chain "):
     node_mod = obj.modifiers.get('MolecularNodes')
     if not node_mod:
         node_mod = obj.modifiers.new("MolecularNodes", "NODES")
-    
+
     obj.modifiers.active = node_mod
-    
-    
+
+
     # create the custom node group data block, where everything will go
     # also create the required group node input and position it
     chain_group = bpy.data.node_groups.new(node_name, "GeometryNodeTree")
     node_input = chain_group.nodes.new("NodeGroupInput")
     node_input.location = [-200, 0]
-    
-    
+
+
     # link shortcut for creating links between nodes
     link = chain_group.links.new
-    
-    
+
+
     # create a named attribute node that gets the chain_number attribute
     # and use this for the selection algebra that happens later on
     chain_number_node = chain_group.nodes.new("GeometryNodeInputNamedAttribute")
@@ -566,49 +564,45 @@ def chain_color(node_name, input_list, label_prefix = "Chain "):
     chain_number_node.location = [-200, 400]
     chain_number_node.inputs[0].default_value = 'chain_id'
     chain_number_node.outputs.get('Attribute')
-    
+
     # shortcut for creating new nodes
     new_node = chain_group.nodes.new
     # distance horizontally to space all of the created nodes
     node_sep_dis = 180
-    counter = 0
-    
-    for chain_name in input_list:
+    for counter, chain_name in enumerate(input_list):
         offset = counter * node_sep_dis
         current_chain = str(label_prefix) + str(chain_name)
-         # node compare inputs 2 & 3
         node_compare = new_node('FunctionNodeCompare')
         node_compare.data_type = 'INT'
         node_compare.location = [offset, 100]
         node_compare.operation = 'EQUAL'
-        
+
         node_compare.inputs[3].default_value = counter
-        
+
         # link the named attribute to the compare
         link(chain_number_node.outputs[4], node_compare.inputs[2])
-        
+
         node_color = new_node('GeometryNodeSwitch')
         node_color.input_type = 'RGBA'
         node_color.location = [offset, -100]
-        
+
         # create an input for this chain
         chain_group.inputs.new("NodeSocketColor", current_chain)
         chain_group.inputs[current_chain].default_value = [random.random(), random.random(), random.random(), 1]
         # switch input colours 10 and 11
         link(node_input.outputs[current_chain], node_color.inputs[11])
         link(node_compare.outputs['Result'], node_color.inputs['Switch'])
-        
-        
+
+
         if counter > 0:
             link(node_color_previous.outputs[4], node_color.inputs[10])
-        
+
         node_color_previous = node_color
-        counter += 1
     chain_group.outputs.new("NodeSocketColor", "Color")
     node_output = chain_group.nodes.new("NodeGroupOutput")
     node_output.location = [offset, 200]
     link(node_color.outputs[4], node_output.inputs['Color'])
-    
+
     return chain_group
 
 def resid_multiple_selection(node_name, input_resid_string):

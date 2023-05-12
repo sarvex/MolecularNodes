@@ -90,7 +90,7 @@ class MOL_OT_Import_Protein_MD(bpy.types.Operator):
         del_solvent = bpy.context.scene.mol_import_del_solvent
         include_bonds = bpy.context.scene.mol_import_include_bonds
         custom_selections = bpy.context.scene.trajectory_selection_list
-        
+
         mol_object, coll_frames = md.load_trajectory(
             file_top    = file_top, 
             file_traj   = file_traj, 
@@ -104,7 +104,7 @@ class MOL_OT_Import_Protein_MD(bpy.types.Operator):
             custom_selections = custom_selections,
         )
         n_frames = len(coll_frames.objects)
-        
+
         nodes.create_starting_node_tree(
             obj = mol_object, 
             coll_frames = coll_frames, 
@@ -112,11 +112,10 @@ class MOL_OT_Import_Protein_MD(bpy.types.Operator):
             )
         bpy.context.view_layer.objects.active = mol_object
         self.report(
-            {'INFO'}, 
-            message=f"Imported '{file_top}' as {mol_object.name} with {str(n_frames)} \
-                frames from '{file_traj}'."
-                )
-        
+            {'INFO'},
+            message=f"Imported '{file_top}' as {mol_object.name} with {n_frames} \\n        #                frames from '{file_traj}'.",
+        )
+
         return {"FINISHED"}
 
 def MOL_PT_panel_rcsb(layout_function, ):
@@ -488,9 +487,7 @@ def mol_add_node(node_name):
     bpy.context.area.type = prev_context
     bpy.context.active_node.node_tree = bpy.data.node_groups[node_name]
     bpy.context.active_node.width = 200.0
-    # if added node has a 'Material' input, set it to the default MN material
-    input_mat = bpy.context.active_node.inputs.get('Material')
-    if input_mat:
+    if input_mat := bpy.context.active_node.inputs.get('Material'):
         input_mat = nodes.mol_base_material().name
 
 class MOL_OT_Add_Custom_Node_Group(bpy.types.Operator):
@@ -557,14 +554,14 @@ class MOL_OT_Style_Surface_Custom(bpy.types.Operator):
         obj = context.active_object
         try:
             node_surface = nodes.create_custom_surface(
-                name = 'MOL_style_surface_' + obj.name + '_split', 
-                n_chains = len(obj['chain_id_unique'])
+                name=f'MOL_style_surface_{obj.name}_split',
+                n_chains=len(obj['chain_id_unique']),
             )
         except:
             node_surface = nodes.mol_append_node('MOL_style_surface_single')
             self.report({'WARNING'}, message = 'Unable to detect number of chains.')
         mol_add_node(node_surface.name)
-        
+
         return {"FINISHED"}
 
 class MOL_OT_Assembly_Bio(bpy.types.Operator):
@@ -647,7 +644,7 @@ class MOL_OT_Color_Chain(bpy.types.Operator):
 
 def menu_chain_selection_custom(layout_function):
     obj = bpy.context.view_layer.objects.active
-    label = 'Chain ' + str(obj.name)
+    label = f'Chain {str(obj.name)}'
     op = layout_function.operator(
         'mol.chain_selection_custom', 
         text = label, 
@@ -670,15 +667,15 @@ class MOL_OT_Chain_Selection_Custom(bpy.types.Operator):
     def execute(self, context):
         obj = bpy.context.view_layer.objects.active
         node_chains = nodes.chain_selection(
-            node_name = 'MOL_sel_' + str(obj.name) + "_chains", 
-            input_list = obj['chain_id_unique'], 
-            starting_value = 0,
-            attribute = 'chain_id', 
-            label_prefix = "Chain "
-            )
-        
+            node_name=f'MOL_sel_{str(obj.name)}_chains',
+            input_list=obj['chain_id_unique'],
+            starting_value=0,
+            attribute='chain_id',
+            label_prefix="Chain ",
+        )
+
         mol_add_node(node_chains.name)
-        
+
         return {"FINISHED"}
 
 
@@ -716,7 +713,7 @@ class MOL_OT_Residues_Selection_Custom(bpy.types.Operator):
 
 def menu_ligand_selection_custom(layout_function):
     obj = bpy.context.view_layer.objects.active
-    label = 'Ligands ' + str(obj.name)
+    label = f'Ligands {str(obj.name)}'
     op = layout_function.operator(
         'mol.ligand_selection_custom', 
         text = label, 
@@ -739,15 +736,15 @@ class MOL_OT_Ligand_Selection_Custom(bpy.types.Operator):
     def execute(self, context):
         obj = bpy.context.view_layer.objects.active
         node_chains = nodes.chain_selection(
-            node_name = 'MOL_sel_' + str(obj.name) + "_ligands", 
-            input_list = obj['ligands'], 
-            starting_value = 100, 
-            attribute = 'res_name', 
-            label_prefix = ""
-            )
-        
+            node_name=f'MOL_sel_{str(obj.name)}_ligands',
+            input_list=obj['ligands'],
+            starting_value=100,
+            attribute='res_name',
+            label_prefix="",
+        )
+
         mol_add_node(node_chains.name)
-        
+
         return {"FINISHED"}
 
 class MOL_MT_Add_Node_Menu_Properties(bpy.types.Menu):
@@ -1075,6 +1072,6 @@ class MOL_MT_Add_Node_Menu(bpy.types.Menu):
                     text='Utilities', icon_value=92)
 
 def mol_add_node_menu(self, context):
-    if ('GeometryNodeTree' == bpy.context.area.spaces[0].tree_type):
+    if bpy.context.area.spaces[0].tree_type == 'GeometryNodeTree':
         layout = self.layout
         layout.menu('MOL_MT_ADD_NODE_MENU', text='Molecular Nodes', icon_value=88)
